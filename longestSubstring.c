@@ -22,45 +22,32 @@ int search(const char s[], char target, int size)
 
 int lengthOfLongestSubstring(char *s)
 {
-    if (s == NULL)
-    {
+    if(s == NULL){
         return 0;
     }
-    size_t length = strlen(s);
-    if (length == 0)
+    int i, j, k = 0, length = 0;
+    for (i  = 0; s[i] != '\0'; ++ i)
     {
-        return 0;
-    }
-    char sArr[length];
-    sArr[0] = s[0];
-    int beforeSize = 0;
-    unsigned int size = 1;
-    int i = 0;
-    for (int start = 1; i <= length && start < length; start ++)
-    {
-        char target = s[start];
-        int k = search(sArr, target, size);
-        if (k < 0)
+        for (j = k; j < i; ++ j)
         {
-            sArr[size] = target;
-            size++;
-        } else
-        {
-            beforeSize = size > beforeSize ? size : beforeSize;
-            memset(sArr, '0', size);
-            i = i + k;
-            sArr[0] = s[++ i];
-            start = i;
-            size = 1;
+            if(s[j] == s[i]){
+                if(length < i - k){
+                    length = i - k;
+                }
+                k = j + 1;
+                break;
+            }
         }
     }
-    return size > beforeSize ? size : beforeSize;
+    int last = i - k;
+    if(length < last) length = last;
+    return length;
 }
 
 int main()
 {
     char *s = "vdbffdsdff";
+    printf("%ld\n", sizeof(*s));
     printf("%d", lengthOfLongestSubstring(s));
-//    printf("%d", binarySearch("kew", 'w', 3));
     return 0;
 }
