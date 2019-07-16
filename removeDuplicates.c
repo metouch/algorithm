@@ -19,14 +19,14 @@
 int removeDuplicates(int* nums, int numsSize){
     if (nums == NULL) return 0;
     if(numsSize < 2) return numsSize;
-    int *p = nums, *q = nums;
-    int i = 1, count = 1;
-    while (i < numsSize){
-        if(*p != *(++ q)){
-            *(++ p) = *q;
+    int i = 0, count = 1;
+    while (++ i < numsSize){
+        if(nums[i] == nums[i - 1]){
+            continue;
+        } else {
+            nums[count] = nums[i];
             count ++;
         }
-        i ++;
     }
     return count;
 }
