@@ -20,33 +20,43 @@
 #include <stdio.h>
 #include <limits.h>
 
-int findKPos(int *nums1, int start1, int nums1Size, int *nums2, int start2, int nums2Size, int k){
-    if(start1 >= nums1Size) return nums2[start2 + k - 1];
-    if(start2 >= nums2Size) return nums1[start1 + k - 1];
-    if(k == 1) return nums1[start1] > nums2[start2] ? nums2[start2] : nums1[start1];
-    int midVal1 = (start1 + k / 2 - 1 < nums1Size) ? nums1[start1 + k / 2 - 1] : INT_MAX;
-    int midVal2 = (start2 + k / 2 - 1 < nums2Size) ? nums2[start2 + k / 2 - 1] : INT_MAX;
-    if(midVal1 < midVal2){
-        return findKPos(nums1, start1 + k / 2, nums1Size, nums2, start2, nums2Size, k - k / 2);
-    } else{
-        return findKPos(nums1, start1, nums1Size, nums2, start2 + k / 2, nums2Size, k - k / 2);
+double findMedianSortedArrays(int* nums1, int nums1Size, int* nums2, int nums2Size){
+    if(nums1Size > nums2Size){
+        int *temp = nums1;
+        nums1 = nums2;
+        nums2 = temp;
+        int tmp = nums1Size;
+        nums1Size = nums2Size;
+        nums2Size = tmp;
     }
+    int iMin = 0, iMax = nums1Size, halfLen = (nums1Size + nums2Size + 1) / 2;
+    while (iMin <= iMax){
+        int i = (iMin + iMax) / 2;
+        int j = halfLen - i;
+        if(i < iMax && nums1[i] < nums2[j - 1]){
+            iMin =i + 1;
+        } else if(i > iMin && nums1[i - 1] > nums2[j]){
+            iMax = i - 1;
+        } else{
+            int maxLeft = 0;
+            if(i == 0) maxLeft = nums2[j - 1];
+            else if (j == 0) maxLeft = nums1[i - 1];
+            else maxLeft = nums1[i - 1] > nums2[j - 1] ? nums1[i - 1] : nums2[j - 1];
+            if((nums1Size + nums2Size) % 2 == 1) return maxLeft;
+            int minRight = 0;
+            if(i == nums1Size) minRight = nums2[j];
+            else if(j == nums2Size) minRight = nums1[i];
+            else minRight = (nums1[i] < nums2[j] ? nums1[i] : nums2[j]);
+            return (maxLeft + minRight) / (double)2;
+        }
+    }
+    return 0.0;
 }
 
-double findMedianSortedArrays(int* nums1, int nums1Size, int* nums2, int nums2Size){
-    int left = (nums1Size + nums2Size + 1) / 2;
-    int right = (nums1Size + nums2Size + 2) / 2;
-    if(left == right){
-        return (double)findKPos(nums1, 0, nums1Size, nums2, 0, nums2Size, left);
-    } else {
-        int result = findKPos(nums1, 0, nums1Size, nums2, 0, nums2Size, left) +
-                findKPos(nums1, 0, nums1Size, nums2, 0, nums2Size, right);
-        return result / (double)2;
-    }
-}
 
 int main(){
-    int arr1[] = {1, 3, 5};
-    int arr2[] = {2, 4, 6};
-    printf("%.1f", findMedianSortedArrays(arr1, 3, arr2, 3));
+    int arr1[] = {2, 4, 6};
+    int arr2[] = {1, 3, 5, 7};
+    printf("%.1f\n", findMedianSortedArrays(arr1, 3, arr2, 4));
+//    printf("%d\n", *(arr2 + 1));
 }
