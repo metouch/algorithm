@@ -47,7 +47,7 @@ void showTree(struct TreeNode* p){
     showTree(p->right);
 }
 
-struct TreeNode* arr2Tree(int *arr, int index, int arrSize) {
+struct TreeNode* arr2Tree(int *arr, int arrSize) {
 
 }
 
