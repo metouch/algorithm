@@ -7,7 +7,7 @@
 #include <string.h>
 #include <stdbool.h>
 
-bool isCharMatch(char * s, int i, char * p, int j) {
+bool isCharMatch(const char * s, int i, const char * p, int j) {
     if (i == 0) {
         return false;
     }
@@ -18,6 +18,18 @@ bool isCharMatch(char * s, int i, char * p, int j) {
 }
 
 bool isMatch(char * s, char * p){
+    if (*p == '\0') {
+        return *s == '\0';
+    }
+    bool matched = (*s == *p) || (*p == '.');
+    if (*p == '*') {
+        return isMatch()
+    } else {
+        return matched && isMatch(++s, ++p);
+    }
+}
+
+bool isMatch1(char * s, char * p){
     int sLen = (int)strlen(s);
     int pLen = (int)strlen(p);
     bool f[sLen + 1][pLen + 1];
