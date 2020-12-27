@@ -3,8 +3,7 @@
 //
 #include <stdio.h>
 #include <zconf.h>
-#define MAX(a, b) ((a) > (b) ? (a) : (b))
-#define MIN(a, b) ((a) < (b) ? (a) : (b))
+#include "thutils.h
 
 int maxArea(int* height, int heightSize){
     if (heightSize < 2) {
