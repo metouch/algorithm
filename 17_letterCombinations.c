@@ -145,7 +145,7 @@ char** letterCombinations(char* digits, int* returnSize) {
 int main(int argc, char *argv[]) {
     char *arr = "28";
     int returnSize = 0;
-    char **result = letterCombinations(arr, &returnSize);
+    char **result = letterCombinations2(arr, &returnSize);
     for (int i = 0; i < returnSize; ++i) {
         printf("%s\n", result[i]);
     }
